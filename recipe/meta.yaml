@@ -1,26 +1,30 @@
 {% set version = '1.7.1' %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-waterml
-  version: {{ version }}
+  version: {{ version|replace("-", "_") }}
 
 source:
   fn: WaterML_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/WaterML_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/WaterML/WaterML_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/WaterML_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/WaterML/WaterML_{{ version }}.tar.gz
   sha256: b2685dc6242f8024450c0c5c596d4c9d03a4a1c66b56fa66e0a90e2ab0550c2b
 
 build:
-  number: 0
-  script: R CMD INSTALL --build .
-  skip: True  # [win]
+  merge_build_host: True  # [win]
+  number: 1
+  skip: true  # [win32]
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
+    - {{posix}}zip               # [win]
+  host:
     - r-base
     - r-rjsonio
     - r-xml
@@ -33,14 +37,13 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('WaterML')"  # [not win]
+    - $R -e "library('WaterML')"           # [not win]
     - "\"%R%\" -e \"library('WaterML')\""  # [win]
 
 about:
   home: https://github.com/jirikadlec2/waterml
   license: MIT
   license_file: LICENSE
-  license_family: MIT
   summary: 'Lets you connect to any of the Consortium of Universities for the Advancement of
     Hydrologic Sciences, Inc. (''CUAHSI'') Water Data Center ''WaterOneFlow'' web services
     and read any ''WaterML'' hydrological time series data file. To see list of available
@@ -59,7 +62,14 @@ about:
     AddSites(), AddVariables(), AddMethods(), AddSources(), and AddValues(). These functions
     can be used for uploading data to a ''HydroServer Lite'' Observations Data Model
     (''ODM'') database via the ''JSON'' data upload web service interface.'
+  license_family: MIT
 
 extra:
   recipe-maintainers:
     - ocefpaf
+    - johanneskoester
+    - bgruening
+    - daler
+    - jdblischak
+    - cbrueffer
+    - dbast
