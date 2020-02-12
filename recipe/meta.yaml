@@ -1,4 +1,4 @@
-{% set version = '1.7.1' %}
+{% set version = "1.9.0" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -11,12 +11,12 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/WaterML_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/WaterML/WaterML_{{ version }}.tar.gz
-  sha256: b2685dc6242f8024450c0c5c596d4c9d03a4a1c66b56fa66e0a90e2ab0550c2b
+  sha256: 0b07c014ae44040c53b654a2047e17a6dfc1b429b3d94513caaa5fdf8dbee7f2
 
 build:
   noarch: generic
   merge_build_host: True  # [win]
-  number: 1002
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
