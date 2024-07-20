@@ -1,6 +1,5 @@
 {% set version = "1.9.8" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-waterml
@@ -13,8 +12,7 @@ source:
   sha256: 499f7c6bb0fe3e560c4754723ec0686a1bda3973689820eea0917bd77f6c84b2
 
 build:
-  merge_build_host: true  # [win]
-  number: 2
+  number: 3
   noarch: generic
   rpaths:
     - lib/R/lib/
